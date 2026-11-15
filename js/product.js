@@ -35,33 +35,56 @@ function renderNotFound() {
 
 function productMedia(product) {
   if (product.images && product.images.length) {
+    const hasMany = product.images.length > 1;
     const main = product.images[0];
+
     const thumbs = product.images
       .map(
         (src, i) => `
       <button
         type="button"
         class="thumb${i === 0 ? " is-active" : ""}"
-        data-src="${esc(src)}"
-        aria-label="View image ${i + 1} of ${product.images.length}"
+        data-thumb-index="${i}"
+        aria-label="Show image ${i + 1} of ${product.images.length}"
       >
         <img src="${esc(src)}" alt="" loading="lazy" />
-      </button>
-    `,
+      </button>`,
       )
       .join("");
 
+    const dots = hasMany
+      ? `<div class="slider-dots" aria-hidden="true">
+           ${product.images
+             .map(
+               (_, i) =>
+                 `<button type="button" class="slider-dot${
+                   i === 0 ? " is-active" : ""
+                 }" data-dot-index="${i}" aria-label="Go to image ${i + 1}" tabindex="-1"></button>`,
+             )
+             .join("")}
+         </div>`
+      : "";
+
+    const arrows = hasMany
+      ? `<button type="button" class="slider-arrow slider-arrow--prev" data-prev aria-label="Previous image">
+           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+         </button>
+         <button type="button" class="slider-arrow slider-arrow--next" data-next aria-label="Next image">
+           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+         </button>`
+      : "";
+
     return `
-      <div class="product__art">
+      <div class="product__art" data-slider${
+        hasMany ? ' tabindex="0" role="group" aria-roledescription="carousel"' : ""
+      }>
         <div class="product__art-inner">
-          <img class="product__photo" data-main src="${esc(main)}" alt="${esc(product.name)}" />
+          <img class="product__photo" data-main src="${esc(main)}" alt="${esc(product.name)}" draggable="false" />
+          ${arrows}
+          ${dots}
         </div>
       </div>
-      ${
-        product.images.length > 1
-          ? `<div class="thumbs" data-thumbs>${thumbs}</div>`
-          : ""
-      }
+      ${hasMany ? `<div class="thumbs" data-thumbs>${thumbs}</div>` : ""}
     `;
   }
 
@@ -72,19 +95,110 @@ function productMedia(product) {
   `;
 }
 
-function wireThumbs() {
-  const host = document.querySelector("[data-thumbs]");
-  const main = document.querySelector("[data-main]");
-  if (!host || !main) return;
-  host.addEventListener("click", (e) => {
-    const btn = e.target.closest(".thumb");
-    if (!btn) return;
-    const src = btn.dataset.src;
-    if (!src) return;
-    main.src = src;
-    host.querySelectorAll(".thumb").forEach((t) => t.classList.remove("is-active"));
-    btn.classList.add("is-active");
+function wireSlider(images) {
+  if (!images || images.length <= 1) return;
+  const slider = document.querySelector("[data-slider]");
+  const main = slider?.querySelector("[data-main]");
+  if (!slider || !main) return;
+
+  let index = 0;
+  const thumbs = Array.from(document.querySelectorAll("[data-thumbs] .thumb"));
+  const dots = Array.from(slider.querySelectorAll(".slider-dot"));
+
+  function preload(i) {
+    const img = new Image();
+    img.src = images[i];
+  }
+
+  function go(next) {
+    index = ((next % images.length) + images.length) % images.length;
+    main.src = images[index];
+    thumbs.forEach((t, i) => t.classList.toggle("is-active", i === index));
+    dots.forEach((d, i) => d.classList.toggle("is-active", i === index));
+    preload((index + 1) % images.length);
+  }
+
+  // Arrows
+  slider.querySelector("[data-prev]")?.addEventListener("click", () => go(index - 1));
+  slider.querySelector("[data-next]")?.addEventListener("click", () => go(index + 1));
+
+  // Dots
+  dots.forEach((d) =>
+    d.addEventListener("click", () => go(parseInt(d.dataset.dotIndex, 10))),
+  );
+
+  // Thumbnails
+  thumbs.forEach((t) =>
+    t.addEventListener("click", (e) => {
+      e.preventDefault();
+      go(parseInt(t.dataset.thumbIndex, 10));
+    }),
+  );
+
+  // Click main image to advance (but not when the user was swiping)
+  let suppressClick = false;
+  main.addEventListener("click", () => {
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
+    go(index + 1);
   });
+
+  // Keyboard arrows (when the slider has focus)
+  slider.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      go(index - 1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      go(index + 1);
+    }
+  });
+
+  // Touch swipe
+  let startX = 0;
+  let startY = 0;
+  let active = false;
+  const SWIPE_MIN = 40;
+
+  slider.addEventListener(
+    "touchstart",
+    (e) => {
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      active = true;
+      suppressClick = false;
+    },
+    { passive: true },
+  );
+  slider.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!active) return;
+      const t = e.touches[0];
+      if (Math.abs(t.clientX - startX) > 10) suppressClick = true;
+    },
+    { passive: true },
+  );
+  slider.addEventListener(
+    "touchend",
+    (e) => {
+      if (!active) return;
+      active = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (Math.abs(dx) > SWIPE_MIN && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) go(index + 1);
+        else go(index - 1);
+      }
+    },
+    { passive: true },
+  );
+
+  preload(1 % images.length);
 }
 
 function renderProduct(product) {
@@ -159,7 +273,7 @@ function renderProduct(product) {
     }
   `;
 
-  wireThumbs();
+  wireSlider(product.images || []);
 }
 
 function init() {
