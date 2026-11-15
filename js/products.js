@@ -129,7 +129,6 @@ export const products = [
     images: [
       "images/peacock-feather-crochet-keychain/1.jpg",
       "images/peacock-feather-crochet-keychain/2.jpg",
-      "images/peacock-feather-crochet-keychain/3.jpg",
     ],
     featured: true,
   },
