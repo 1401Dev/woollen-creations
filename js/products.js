@@ -22,7 +22,7 @@ export const products = [
     ],
     madeTime: "About 5 hours",
     colors: ["#f0a98a", "#a8dcd0", "#f4ead6", "#b63463"],
-    images: ["images/bottle-band/1.jpg", "images/bottle-band/2.jpg"],
+    images: ["images/bottle-band/1.jpg", "images/bottle-band/2.jpg", "images/bottle-band/3.jpg"],
     featured: true,
   },
   {
