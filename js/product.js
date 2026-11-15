@@ -10,7 +10,8 @@ function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function renderNotFound() {
@@ -30,6 +31,60 @@ function renderNotFound() {
     </div>
   `;
   document.title = "Not found · Woollen Creations";
+}
+
+function productMedia(product) {
+  if (product.images && product.images.length) {
+    const main = product.images[0];
+    const thumbs = product.images
+      .map(
+        (src, i) => `
+      <button
+        type="button"
+        class="thumb${i === 0 ? " is-active" : ""}"
+        data-src="${esc(src)}"
+        aria-label="View image ${i + 1} of ${product.images.length}"
+      >
+        <img src="${esc(src)}" alt="" loading="lazy" />
+      </button>
+    `,
+      )
+      .join("");
+
+    return `
+      <div class="product__art">
+        <div class="product__art-inner">
+          <img class="product__photo" data-main src="${esc(main)}" alt="${esc(product.name)}" />
+        </div>
+      </div>
+      ${
+        product.images.length > 1
+          ? `<div class="thumbs" data-thumbs>${thumbs}</div>`
+          : ""
+      }
+    `;
+  }
+
+  return `
+    <div class="product__art">
+      <div class="product__art-inner">${productArtworkSVG(product)}</div>
+    </div>
+  `;
+}
+
+function wireThumbs() {
+  const host = document.querySelector("[data-thumbs]");
+  const main = document.querySelector("[data-main]");
+  if (!host || !main) return;
+  host.addEventListener("click", (e) => {
+    const btn = e.target.closest(".thumb");
+    if (!btn) return;
+    const src = btn.dataset.src;
+    if (!src) return;
+    main.src = src;
+    host.querySelectorAll(".thumb").forEach((t) => t.classList.remove("is-active"));
+    btn.classList.add("is-active");
+  });
 }
 
 function renderProduct(product) {
@@ -54,8 +109,8 @@ function renderProduct(product) {
     </nav>
 
     <div class="product">
-      <div class="product__art">
-        <div class="product__art-inner">${productArtworkSVG(product)}</div>
+      <div class="product__media-col">
+        ${productMedia(product)}
       </div>
 
       <div class="product__info">
@@ -103,6 +158,8 @@ function renderProduct(product) {
         : ""
     }
   `;
+
+  wireThumbs();
 }
 
 function init() {

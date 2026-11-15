@@ -1,7 +1,30 @@
 // Product data for the whole site.
 // Add, edit or remove items here — every page reads from this one file.
+//
+// To add real photos for a product:
+//   1. Drop 1–N image files into `images/<slug>/` (e.g. images/bottle-band/1.jpg)
+//   2. Add an `images: [...]` array listing their paths (first one is the cover)
+// If `images` is omitted, the site falls back to a generated SVG placeholder.
 
 export const products = [
+  {
+    slug: "bottle-band",
+    name: "Bottle Band",
+    category: "accessories",
+    summary:
+      "A crocheted granny-square cuff that slips around your tumbler.",
+    description:
+      "Three little granny squares joined in a row and finished with a soft band of single-crochet so it hugs a tumbler snugly. Pastel oranges and mint greens are worked around a cream ground, with a tiny magenta heart at the centre square. Fits the standard 30 oz tumblers; stretches to grip without sliding. Hand-wash and air-dry.",
+    materials: [
+      "Pima-cotton yarn",
+      "Cotton thread for joining",
+      "Elastic band inside the cuff",
+    ],
+    madeTime: "About 5 hours",
+    colors: ["#f0a98a", "#a8dcd0", "#f4ead6", "#b63463"],
+    images: ["images/bottle-band/1.jpg", "images/bottle-band/2.jpg"],
+    featured: true,
+  },
   {
     slug: "honey-bear-amigurumi",
     name: "Honey the Bear",
