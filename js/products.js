@@ -72,15 +72,22 @@ export const products = [
     featured: true,
   },
   {
-    slug: "woodland-mushroom-coasters",
-    name: "Woodland Mushroom Coasters",
+    slug: "flower-vase",
+    name: "Flower Vase",
     category: "home",
-    summary: "A set of four felted mushroom-cap coasters.",
+    summary: "A beautiful ceramic vase adorned with hand-painted flowers.",
     description:
-      "Wet-felted from carded wool batts, each cap is about 10 cm across and just thick enough to catch a warm mug. The underside is left raw-felted for grip. Comes as a set of four in forest reds, moss greens and cream speckles.",
+      "Hand-painted with vibrant floral designs, this ceramic vase is perfect for displaying fresh flowers or as a standalone decorative piece. The glaze gives it a subtle sheen that catches the light beautifully.",
+
     materials: ["Carded New Zealand wool", "Natural soap"],
     madeTime: "About 6 hours per set",
     colors: ["#9e3b2a", "#6a7a3f", "#f4ece0"],
+    images: [
+      "images/flower-vase/1.jpg",
+      "images/flower-vase/2.jpg",
+      "images/flower-vase/3.jpg",
+      "images/flower-vase/4.jpg",
+    ],
   },
   {
     slug: "fisherman-beanie",
