@@ -35,6 +35,7 @@ export const products = [
     materials: ["Merino wool blend", "Polyfill", "Cotton embroidery thread"],
     madeTime: "About 14 hours",
     colors: ["#c48a5a", "#f1d6a5", "#3a2a1f"],
+    images: ["images/crochet-phone-pouch/1.jpg", "images/crochet-phone-pouch/2.jpg", "images/crochet-phone-pouch/3.jpg"],
     featured: true,
   },
   {
