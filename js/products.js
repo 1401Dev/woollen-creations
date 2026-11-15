@@ -28,14 +28,35 @@ export const products = [
   {
     slug: "crochet-phone-pouch",
     name: "Crochet Phone Pouch",
-    category: "accessories",
+    category: "bags",
     summary: "A handy crocheted pouch for your phone.",
     description:
       "Hand-crocheted from soft merino-blend yarn, this pouch is perfect for holding your phone secure and close at hand. The design features a cute little pocket for your keys and a handy drawstring closure.",
     materials: ["Merino wool blend", "Polyfill", "Cotton embroidery thread"],
     madeTime: "About 14 hours",
     colors: ["#c48a5a", "#f1d6a5", "#3a2a1f"],
-    images: ["images/crochet-phone-pouch/1.jpg", "images/crochet-phone-pouch/2.jpg", "images/crochet-phone-pouch/3.jpg"],
+    images: [
+      "images/crochet-phone-pouch/1.jpg",
+      "images/crochet-phone-pouch/2.jpg",
+      "images/crochet-phone-pouch/3.jpg",
+    ],
+    featured: true,
+  },
+  {
+    slug: "green-crochet-bag",
+    name: "Green Crochet Bag",
+    category: "bags",
+    summary: "A roomy, soft-shouldered bag crocheted in forest-green yarn.",
+    description:
+      "Worked in a close single-crochet so the bag holds its shape, with a doubled strap long enough to sit over the shoulder. Lined inside with a sturdy cotton to stop the knit from sagging under weight. Carries a book, a wallet and the usual pocket spill.",
+    materials: ["Worsted-weight wool", "Cotton lining", "Wooden button"],
+    madeTime: "About 16 hours",
+    colors: ["#4a6a3a", "#7a9668", "#e8d8b0"],
+    images: [
+      "images/green-crochet-bag/1.jpg",
+      "images/green-crochet-bag/2.jpg",
+      "images/green-crochet-bag/3.jpg",
+    ],
     featured: true,
   },
   {
@@ -122,6 +143,7 @@ export const products = [
 export const categoryLabels = {
   amigurumi: "Amigurumi",
   wearables: "Wearables",
+  bags: "Bags & pouches",
   home: "For the home",
   accessories: "Accessories",
 };

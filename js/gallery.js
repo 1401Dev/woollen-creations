@@ -13,7 +13,7 @@ function renderGallery() {
     return acc;
   }, {});
 
-  const order = ["amigurumi", "wearables", "home", "accessories"];
+  const order = ["amigurumi", "wearables", "bags", "home", "accessories"];
   host.innerHTML = order
     .filter((cat) => grouped[cat] && grouped[cat].length)
     .map(
