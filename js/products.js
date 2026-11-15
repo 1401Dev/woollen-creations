@@ -26,12 +26,12 @@ export const products = [
     featured: true,
   },
   {
-    slug: "honey-bear-amigurumi",
-    name: "Honey the Bear",
-    category: "amigurumi",
-    summary: "A chubby crocheted bear who's always ready for a cuddle.",
+    slug: "crochet-phone-pouch",
+    name: "Crochet Phone Pouch",
+    category: "accessories",
+    summary: "A handy crocheted pouch for your phone.",
     description:
-      "Hand-crocheted from soft merino-blend yarn, Honey stands about 20 cm tall. Each stitch is worked in a tight single-crochet so the fibre fill stays firm and the shape keeps its charming, wobbly tummy. Finished with hand-embroidered features — no plastic safety eyes, so she's safe for little hands.",
+      "Hand-crocheted from soft merino-blend yarn, this pouch is perfect for holding your phone secure and close at hand. The design features a cute little pocket for your keys and a handy drawstring closure.",
     materials: ["Merino wool blend", "Polyfill", "Cotton embroidery thread"],
     madeTime: "About 14 hours",
     colors: ["#c48a5a", "#f1d6a5", "#3a2a1f"],
