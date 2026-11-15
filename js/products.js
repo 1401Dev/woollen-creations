@@ -117,6 +117,23 @@ export const products = [
     featured: true,
   },
   {
+    slug: "peacock-feather-crochet-keychain",
+    name: "Peacock Feather Crochet Keychain",
+    category: "accessories",
+    summary: "A delicate keychain featuring a peacock feather design.",
+    description:
+      "Hand-crocheted from soft merino-blend yarn, this keychain showcases a beautiful peacock feather design. The feather is made with vibrant blues and greens, creating a stunning focal point. Perfect for adding a touch of nature to your keys.",
+    materials: ["Merino wool blend", "Polyfill", "Cotton embroidery thread"],
+    madeTime: "About 14 hours",
+    colors: ["#4a6a3a", "#7a9668", "#e8d8b0"],
+    images: [
+      "images/peacock-feather-crochet-keychain/1.jpg",
+      "images/peacock-feather-crochet-keychain/2.jpg",
+      "images/peacock-feather-crochet-keychain/3.jpg",
+    ],
+    featured: true,
+  },
+  {
     slug: "braided-headband",
     name: "Braided Headband",
     category: "accessories",
